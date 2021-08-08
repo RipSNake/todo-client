@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const folderSlice = createSlice({
 	name: 'folder',
-	initialState: [],
-	status: idle,
-	error: null,
+	initialState: {
+		data: [],
+		status: idle,
+		error: null,
+	},
 	reducers: {
 		addFolder: (state, action) => {
 			alert('Created folder from REDUX');

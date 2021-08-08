@@ -1,6 +1,7 @@
 import Task from '../Task';
 
 const submitHandler = (event) => {
+	event.preventDefault();
 	console.log('Form submitted ', event);
 }
 
@@ -14,8 +15,10 @@ export const TaskList = () => {
 	return (
 		<>
 			<h1>To-Do List</h1>
-			{ tasks.map( item => (<Task task={item} />)) }
-			<form submit={submitHandler}>
+			<ul>
+				{ tasks.map( item => (<Task key={item.id} task={item} />)) }
+			</ul>
+			<form onSubmit={(e) => submitHandler(e)}>
 				<input type="text" placeholder="New Task" />
 				<button type="submit">Add</button>
 			</form>

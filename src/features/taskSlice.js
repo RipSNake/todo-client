@@ -2,18 +2,24 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const taskSlice = createSlice({
 	name: 'task',
-	initialState: [],
-	status: idle,
-	error: null,
+	initialState: {
+		data: [],
+		status: idle,
+		error: null,
+	},
 	reducers: {
 		addTask: (state, action) => {
-			alert('Task added from REDUX');
+			state.data = state.data.push(action.payload);
 		},
 		removeTask: (state, action) => {
-			alert('Task removed from REDUX');
+			state.data = state.data.filter(task => task.id === action.payload);
 		},
 		updateTask: (state, action) => {
-			alert('Task updated from REDUX');
+			state.data = state.data.map(task => {
+				if(task.id === action.payload.id) {
+					task = action.payload;
+				}
+			})
 		}
 	}
 })
