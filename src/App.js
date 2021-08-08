@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 // Router
 import {
@@ -22,6 +21,9 @@ function App() {
         <Switch>
           <Route path="/folders">
             <h1>From FOLDERS !</h1>
+          </Route>
+          <Route path="/folders/:id">
+            <h1>From Folder ID</h1>
           </Route>
           <Route path="/tasks/:id">
             <EditTask />
