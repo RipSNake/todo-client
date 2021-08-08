@@ -1,26 +1,47 @@
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addTask, fetchTasks } from '../../features/taskSlice';
+import httpService from '../../services/httpService';
+
+// components
 import Task from '../Task';
 
-const submitHandler = (event) => {
-	event.preventDefault();
-	console.log('Form submitted ', event);
-}
-
 export const TaskList = () => {
-	const tasks = [
-		{id: 1, description: 'Sample tasks', done: 0},
-		{id:2, description: 'My second task', done:1},
-		{id:3, description:'Not getting any',done:0}
-	]
+	const [tasks, setTasks] = useState([]);
+	const dispatch = useDispatch();
+	const data = useSelector(state => state.task.data);
+	const taskStatus = useSelector(state => state.task.status);
+
+	const submitHandler = async (event) => {
+		event.preventDefault();
+		const task = {id: tasks.length+10, description: event.target['task'].value, done:0}
+		const res = await httpService('tasks/new','post',task);
+		console.log(res);
+		dispatch(addTask(task));
+		event.target.reset();
+	}
+
+	useEffect(() => {
+		if(taskStatus === 'idle') {
+			dispatch(fetchTasks());
+		}
+		setTasks(data);
+	}, [data, taskStatus]);
 
 	return (
 		<>
 			<h1>To-Do List</h1>
-			<ul>
-				{ tasks.map( item => (<Task key={item.id} task={item} />)) }
-			</ul>
-			<form onSubmit={(e) => submitHandler(e)}>
-				<input type="text" placeholder="New Task" />
-				<button type="submit">Add</button>
+			{ data.length <= 0 ?
+				<h2>LOADING...</h2>
+				:
+				<ul className="row" style={{padding: 0}}>
+					{ tasks.map( item => (<Task key={item.id} task={item} />)) }
+				</ul>	
+			}
+			
+			<form onSubmit={submitHandler} className="row m-auto justify-content-between">
+				<input className="col-8" type="text" name="task" placeholder="New Task" />
+				<button type="submit" className="col-2" style={{'margin-right': '0.8rem'}}>Add</button>
 			</form>
 		</>
 	)

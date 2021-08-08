@@ -13,7 +13,7 @@ import EditTask from './components/EditTask';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App container">
         <Link to="/">Home</Link>
         <Link to="/tasks">To-Do List</Link>
         <Link to="/folders">Folders</Link>

@@ -1,20 +1,41 @@
-import { useParams } from 'react-router-dom';
-
-const task = {id:99, description: 'This a fake task', done:0,folderId:null};
+import { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+// From Store
+import { updateTask } from '../../features/taskSlice';
 
 export const EditTask = () => {
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
 	const {id} = useParams();
+	const history = useHistory();
+	const dispatch = useDispatch();
+	const selected = useSelector(state => state.task.data.filter(item => item.id === parseInt(id)))
 
-	console.log('The id param ', id);
+	const submitHandler = (e) => {
+		e.preventDefault();
+		dispatch(updateTask({id: selected[0].id, description, done: selected[0].done, folderId: selected[0].folderId}));
+		history.goBack();
+	}
+
+	const changeHandler = (e) => {
+		setDescription(e.target.value);
+	}
+	
+	useEffect(() => {
+		setDescription(selected[0].description);
+		setTitle(selected[0].description)
+	}, []);
+
 	return (
 		<>
-			<h1>Edit {task.description}</h1>
-			<h3>ID: {id}</h3>
-			<form submit={() => console.log('Edit Form Submitted')}>
-				<input type="text" value={task.description} />
-
-				<button type="submit">Save</button>
-				<button type="button" onClick={() => console.log('Go BACK AND CANCEL EDITION')}>Cancel</button>
+			<h1>Editing Task "{title}"</h1>
+			
+			<form onSubmit={submitHandler} className="row">
+				<input className="col-10 mb-3" type="text" name="description" value={description} onChange={changeHandler}/>
+				<br />
+				<button type="submit" className="col-3" style={{'margin-right': '1rem'}}>Save</button>
+				<button type="button" className="col-3" onClick={() => history.goBack()}>Cancel</button>
 			</form>
 		</>
 	)
