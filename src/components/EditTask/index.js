@@ -25,7 +25,7 @@ export const EditTask = () => {
 	useEffect(() => {
 		setDescription(selected[0].description);
 		setTitle(selected[0].description)
-	}, []);
+	}, [selected]);
 
 	return (
 		<>
@@ -34,7 +34,7 @@ export const EditTask = () => {
 			<form onSubmit={submitHandler} className="row">
 				<input className="col-10 mb-3" type="text" name="description" value={description} onChange={changeHandler}/>
 				<br />
-				<button type="submit" className="col-3" style={{'margin-right': '1rem'}}>Save</button>
+				<button type="submit" className="col-3" style={{'marginRight': '1rem'}}>Save</button>
 				<button type="button" className="col-3" onClick={() => history.goBack()}>Cancel</button>
 			</form>
 		</>

@@ -14,9 +14,10 @@ export const TaskList = () => {
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
-		const task = {id: tasks.length+10, description: event.target['task'].value, done:0}
+		const task = {description: event.target['task'].value, done:0}
 		const res = await httpService('tasks/new','post',task);
 		console.log(res);
+		task.id = res.data.insertId;
 		dispatch(addTask(task));
 		event.target.reset();
 	}
@@ -26,7 +27,7 @@ export const TaskList = () => {
 			dispatch(fetchTasks());
 		}
 		setTasks(data);
-	}, [data, taskStatus]);
+	}, [data, taskStatus, dispatch]);
 
 	return (
 		<>
