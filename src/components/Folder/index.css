@@ -1,0 +1,7 @@
+.folderNav {
+	cursor: pointer;
+}
+
+.folderNav:hover {
+	opacity: 0.8;
+}

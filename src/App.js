@@ -9,6 +9,8 @@ import {
 // components
 import TaskList from './components/TaskList';
 import EditTask from './components/EditTask';
+import FolderList from './components/FolderList';
+import Folder from './components/Folder';
 
 function App() {
   return (
@@ -19,11 +21,11 @@ function App() {
         <Link to="/folders">Folders</Link>
 
         <Switch>
-          <Route path="/folders">
-            <h1>From FOLDERS !</h1>
-          </Route>
           <Route path="/folders/:id">
-            <h1>From Folder ID</h1>
+            <Folder />
+          </Route>
+          <Route path="/folders">
+            <FolderList />
           </Route>
           <Route path="/tasks/:id">
             <EditTask />
