@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { removeTask, updateTask } from '../../features/taskSlice';
+import { updateTask } from '../../features/taskSlice';
 import httpService from '../../services/httpService';
 
 export const Task = ({task}) => {
@@ -29,7 +29,7 @@ export const Task = ({task}) => {
 			<input className="col-1" type="checkbox" onChange={doneHandler} checked={checked}/>
 			<p className="col-7 m-0 text-start">{task.description}</p>
 			<Link className="col-2" to={`/tasks/${task.id}`}>Edit</Link>
-			<button className="col-2" onClick={() => dispatch(removeTask(task.id))}>Remove</button>
+			{/*<Link className="col-2" to={'tasks'} onClick={() => dispatch(removeTask(task.id))}>Remove</Link>*/}
 		</li>
 	)
 };

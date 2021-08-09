@@ -47,7 +47,7 @@ export const Folder = () => {
 
 			<form onSubmit={submitHandler} className="row m-auto justify-content-between">
 				<input className="col-8" type="text" name="task" placeholder="New Task" />
-				<button type="submit" className="col-2" style={{'margin-right': '0.8rem'}}>Add</button>
+				<button type="submit" className="col-2" style={{'marginRight': '0.8rem'}}>Add</button>
 			</form>
 		</>
 	)

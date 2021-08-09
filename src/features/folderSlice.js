@@ -23,7 +23,7 @@ export const folderSlice = createSlice({
 		addFolder: (state, action) => {
 			state.data = state.data.concat(action.payload);
 		},
-		removerFolder: (state, action) => {
+		removeFolder: (state, action) => {
 			state.data = state.data.filter(folder => folder.id !== action.payload);
 		}
 	},
@@ -41,6 +41,6 @@ export const folderSlice = createSlice({
 	}
 })
 
-export const { addFolder, removerFolder } = folderSlice.actions;
+export const { addFolder, removeFolder } = folderSlice.actions;
 
 export default folderSlice.reducer;

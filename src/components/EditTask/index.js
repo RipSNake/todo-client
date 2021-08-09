@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { httpService } from '../../services/httpService';
 // From Store
-import { updateTask } from '../../features/taskSlice';
+import { updateTask, fetchTasks } from '../../features/taskSlice';
 
 export const EditTask = () => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
-	const {id} = useParams();
+	const { id } = useParams();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const selected = useSelector(state => state.task.data.filter(item => item.id === parseInt(id)))
+	const taskStatus = useSelector(state => state.task.status);
 
-	const submitHandler = (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault();
-		dispatch(updateTask({id: selected[0].id, description, done: selected[0].done, folderId: selected[0].folderId}));
+		const updated = {...selected[0], description: description};
+		console.log('Updated value ', updated);
+		await httpService(`tasks/${id}`,'put',updated);
+		dispatch(updateTask(updated));
 		history.goBack();
 	}
 
@@ -23,9 +28,13 @@ export const EditTask = () => {
 	}
 	
 	useEffect(() => {
-		setDescription(selected[0].description);
-		setTitle(selected[0].description)
-	}, [selected]);
+		if(taskStatus === 'idle' || taskStatus === 'failed') {
+			dispatch(fetchTasks());
+		} else if(selected[0] !== undefined && description === '') {
+			setDescription(selected[0].description);
+			setTitle(selected[0].description);
+		}
+	}, [selected, dispatch, taskStatus, description]);
 
 	return (
 		<>
